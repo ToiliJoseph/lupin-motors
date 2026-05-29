@@ -192,7 +192,8 @@
             z-index: 10;
         }
 
-        .gallery-nav {
+                /* Arrows ONLY inside main image gallery */
+        .gallery-main .gallery-nav {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -208,12 +209,12 @@
             z-index: 10;
         }
 
-        .gallery-nav:hover {
+        .gallery-main .gallery-nav:hover {
             background: var(--accent);
         }
 
-        .gallery-nav.prev { left: 15px; }
-        .gallery-nav.next { right: 15px; }
+        .gallery-main .gallery-nav.prev { left: 15px; }
+        .gallery-main .gallery-nav.next { right: 15px; }
 
         /* Vehicle Info */
         .vehicle-info-panel {
@@ -891,18 +892,37 @@
         object-fit: cover;
     }
     
-    /* Hide any arrows inside interior/exterior galleries */
-    .interior-gallery .gallery-nav,
-    .interior-gallery .lightbox-nav,
-    #interiorGallery .gallery-nav,
-    #interiorGallery .lightbox-nav,
-    .exterior-gallery .gallery-nav {
+       /* ============================================
+       HIDE ALL ARROWS EXCEPT IN MAIN GALLERY
+       ============================================ */
+
+    /* Hide gallery-nav everywhere except .gallery-main */
+    .gallery-nav:not(.gallery-main .gallery-nav) {
         display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        position: absolute !important;
+        z-index: -9999 !important;
     }
-    
+
+    /* Specifically target interior gallery */
+    .interior-gallery .gallery-nav,
+    #interiorGallery .gallery-nav,
+    .thumbnail-strip .gallery-nav,
+    #thumbnailStrip .gallery-nav,
+    .related-grid .gallery-nav,
+    .tab-content .gallery-nav {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+
     /* Main image arrows stay visible */
     .gallery-main .gallery-nav {
         display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 }
         }
@@ -940,6 +960,41 @@
         font-size: 0.8rem !important;
         padding: 0.3rem !important;
     }
+        /* ============================================
+   FINAL MOBILE FIX - INTERIOR GALLERY 2 COLUMNS
+   This must be the LAST CSS in the file
+   ============================================ */
+
+@media only screen and (max-width: 768px) {
+    #interiorGallery,
+    .interior-gallery {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
+        padding: 0.5rem !important;
+    }
+    
+    #interiorGallery .interior-item,
+    .interior-gallery .interior-item {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    #interiorGallery .interior-item img,
+    .interior-gallery .interior-item img {
+        width: 100% !important;
+        height: 130px !important;
+        object-fit: cover !important;
+        border-radius: 6px !important;
+    }
+    
+    #interiorGallery .interior-label,
+    .interior-gallery .interior-label {
+        font-size: 0.75rem !important;
+        padding: 0.3rem !important;
+    }
+}
 }
     </style>
 </head>
