@@ -326,94 +326,68 @@
    VEHICLE DETAIL MOBILE FIXES
    ============================================ */
 
+/* ============================================
+   CONTACT SECTION MOBILE - STACK VERTICALLY
+   FORM FIRST, INFO SECOND
+   ============================================ */
+
 @media (max-width: 768px) {
-    /* Main gallery fits screen */
-    .gallery-main img,
-    .main-image {
-        height: 250px !important;
-        width: 100% !important;
-        object-fit: cover;
-    }
-    
-    /* Thumbnails scroll horizontally */
-    .gallery-thumbnails,
-    .thumbnail-strip {
+    .contact-content {
         display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
-        gap: 0.5rem !important;
-        padding-bottom: 0.5rem;
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    .gallery-thumbnails img,
-    .thumbnail {
-        width: 80px !important;
-        height: 60px !important;
-        flex-shrink: 0 !important;
-    }
-    
-    /* Specs grid - 2 columns */
-    .specs-grid,
-    .vehicle-specs {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 1rem !important;
-    }
-    
-    /* Header stacks vertically */
-    .detail-header,
-    .vehicle-header {
         flex-direction: column !important;
-        text-align: center;
-        gap: 1rem;
+        gap: 2rem !important;
     }
     
-    .detail-price,
-    .vehicle-price {
-        margin-top: 0.5rem;
-        font-size: 1.5rem;
-    }
-    
-    /* Container padding */
-    .vehicle-detail-container,
-    .detail-container {
-        padding: 1rem !important;
-    }
-    
-    /* Features list */
-    .features-list,
-    .vehicle-features {
-        grid-template-columns: 1fr !important;
-    }
-    
-    /* Contact form full width */
-    .inquiry-form,
-    .contact-form {
+    /* RIGHT SIDE (Form) - GOES FIRST */
+    .contact-right {
+        order: 1 !important;
+        position: relative !important;
+        top: 0 !important;
         width: 100% !important;
+    }
+    
+    /* LEFT SIDE (Get In Touch info) - GOES SECOND */
+    .contact-left {
+        order: 2 !important;
+        width: 100% !important;
+    }
+    
+    .form-container {
         padding: 1.5rem !important;
     }
     
-    /* Reduce font sizes */
-    .detail-title,
-    .vehicle-title {
-        font-size: 1.5rem !important;
+    .contact-title {
+        font-size: 1.8rem !important;
     }
     
-    .detail-description,
-    .vehicle-description {
-        font-size: 0.95rem !important;
+    .contact-desc {
+        max-width: 100% !important;
     }
     
-    /* Tabs */
-    .detail-tabs,
-    .info-tabs {
-        flex-wrap: wrap;
-        gap: 0.5rem;
+    .contact-info-cards {
+        gap: 1rem !important;
     }
     
-    .tab-btn {
-        padding: 0.6rem 1rem !important;
-        font-size: 0.9rem;
+    .info-card:hover {
+        transform: translateX(5px) !important;
+    }
+    
+    .social-links-contact {
+        justify-content: center;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+    }
+    
+    .form-group-contact {
+        margin-bottom: 1rem !important;
+    }
+    
+    .submit-btn-contact {
+        padding: 1rem !important;
+        font-size: 1rem !important;
     }
 }
 
