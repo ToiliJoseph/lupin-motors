@@ -183,6 +183,23 @@
             alert('Thank you for your message! We will contact you shortly.');
             e.target.reset();
         }
+        // Force mobile contact layout - form first, info second
+function fixContactMobile() {
+    if (window.innerWidth <= 768) {
+        const content = document.querySelector('.contact-content');
+        const left = document.querySelector('.contact-left');
+        const right = document.querySelector('.contact-right');
+        
+        if (content && left && right) {
+            content.style.display = 'block';
+            content.insertBefore(right, left); // Moves form BEFORE info
+        }
+    }
+}
+
+// Run on load and resize
+window.addEventListener('load', fixContactMobile);
+window.addEventListener('resize', fixContactMobile);
 
         // Mobile Menu
         function toggleMobileMenu() {
