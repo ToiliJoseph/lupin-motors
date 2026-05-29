@@ -785,23 +785,28 @@
     }
 }
 
-/* Fix Contact Section - Form First, Info Second on Mobile */
-@media (max-width: 968px) {
+/* ============================================
+   CONTACT SECTION MOBILE - FORM FIRST, INFO SECOND
+   ============================================ */
+
+@media (max-width: 768px) {
     .contact-content {
         display: flex !important;
-        flex-direction: column-reverse !important;
+        flex-direction: column !important;
         gap: 2rem !important;
     }
     
+    /* FORM (right side) - GOES FIRST */
     .contact-right {
-        order: -1 !important;
+        order: 1 !important;
         position: relative !important;
         top: 0 !important;
         width: 100% !important;
     }
     
+    /* INFO (left side) - GOES SECOND */
     .contact-left {
-        order: 1 !important;
+        order: 2 !important;
         width: 100% !important;
     }
     
@@ -828,10 +833,7 @@
     .social-links-contact {
         justify-content: center;
     }
-}
-
-/* Fix Form Fields on Mobile */
-@media (max-width: 768px) {
+    
     .form-row {
         grid-template-columns: 1fr !important;
         gap: 0 !important;
@@ -896,7 +898,7 @@
 /* Fix Navbar on Mobile */
 @media (max-width: 768px) {
     .nav-links {
-        display: none; /* Or convert to hamburger menu if you have one */
+        display: none;
     }
     
     .navbar {
@@ -905,6 +907,15 @@
     
     .logo {
         font-size: 1.2rem;
+    }
+    
+    .logo-img {
+        height: 40px;
+        max-width: 150px;
+    }
+    
+    .mobile-menu {
+        display: block;
     }
 }
 
@@ -917,41 +928,12 @@
     .section-title h2 {
         font-size: 1.8rem !important;
     }
+    
+    .about-content,
+    .modal-body {
+        grid-template-columns: 1fr;
+    }
 }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .nav-links {
-                display: none;
-            }
-
-            .logo-img {
-                height: 40px;
-                max-width: 150px;
-            }
-
-            .mobile-menu {
-                display: block;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .about-content,
-            .contact-container,
-            .modal-body {
-                grid-template-columns: 1fr;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .inventory-grid {
-                grid-template-columns: 1fr;
-            }
-        }
         @keyframes scaleIn {
             0% { transform: scale(0); opacity: 0; }
             50% { transform: scale(1.2); }
