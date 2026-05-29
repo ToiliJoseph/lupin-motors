@@ -276,7 +276,9 @@
             }
         });
     // API Base URL - Change this when deploying
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000/api' 
+    : 'https://lupin-motors.onrender.com/api';
 // Check if user has already submitted (using email + phone fingerprint)
 function hasAlreadySubmitted(email, phone) {
     const submissions = JSON.parse(localStorage.getItem('lupinSubmissions') || '[]');
