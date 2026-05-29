@@ -322,6 +322,113 @@
             background: var(--primary);
             color: var(--white);
         }
+        /* ============================================
+   VEHICLE DETAIL MOBILE FIXES
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Main gallery fits screen */
+    .gallery-main img,
+    .main-image {
+        height: 250px !important;
+        width: 100% !important;
+        object-fit: cover;
+    }
+    
+    /* Thumbnails scroll horizontally */
+    .gallery-thumbnails,
+    .thumbnail-strip {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        gap: 0.5rem !important;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .gallery-thumbnails img,
+    .thumbnail {
+        width: 80px !important;
+        height: 60px !important;
+        flex-shrink: 0 !important;
+    }
+    
+    /* Specs grid - 2 columns */
+    .specs-grid,
+    .vehicle-specs {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1rem !important;
+    }
+    
+    /* Header stacks vertically */
+    .detail-header,
+    .vehicle-header {
+        flex-direction: column !important;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .detail-price,
+    .vehicle-price {
+        margin-top: 0.5rem;
+        font-size: 1.5rem;
+    }
+    
+    /* Container padding */
+    .vehicle-detail-container,
+    .detail-container {
+        padding: 1rem !important;
+    }
+    
+    /* Features list */
+    .features-list,
+    .vehicle-features {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Contact form full width */
+    .inquiry-form,
+    .contact-form {
+        width: 100% !important;
+        padding: 1.5rem !important;
+    }
+    
+    /* Reduce font sizes */
+    .detail-title,
+    .vehicle-title {
+        font-size: 1.5rem !important;
+    }
+    
+    .detail-description,
+    .vehicle-description {
+        font-size: 0.95rem !important;
+    }
+    
+    /* Tabs */
+    .detail-tabs,
+    .info-tabs {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .tab-btn {
+        padding: 0.6rem 1rem !important;
+        font-size: 0.9rem;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+    .gallery-main img,
+    .main-image {
+        height: 200px !important;
+    }
+    
+    .specs-grid,
+    .vehicle-specs {
+        grid-template-columns: 1fr !important;
+    }
+}
 
         /* Tabs Section */
         .tabs-section {
