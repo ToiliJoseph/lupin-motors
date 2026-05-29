@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lupin Motors - Vehicle Dealership</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-circle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <!-- In your navbar -->
+            <a href="#" class="logo">
+                <img src="images/logo.jpg" alt="Lupin Motors Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#inventory">Inventory</a></li>
+                <li><a href="/#services">Services</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="/#testimonials">Reviews</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#inventory">Inventory</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="mobile-menu" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+    </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Find Your Dream Car</h1>
+            <p>Premium vehicles at unbeatable prices</p>
+            <div class="cta-buttons">
+                <a href="#inventory" class="btn btn-primary">View Inventory</a>
+                <a href="#contact" class="btn btn-secondary">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="search-container">
+            <div class="search-grid">
+                <div class="form-group">
+                    <label>Make</label>
+                    <select id="makeFilter">
+                        <option value="">All Makes</option>
+                        <option value="bmw">BMW</option>
+                        <option value="mercedes">Mercedes-Benz</option>
+                        <option value="audi">Audi</option>
+                        <option value="porsche">Porsche</option>
+                        <option value="lexus">Lexus</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Model</label>
+                    <select id="modelFilter">
+                        <option value="">All Models</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Price Range</label>
+                    <select id="priceFilter">
+                        <option value="">Any Price</option>
+                        <option value="0-4000000">Under ksh 4,000,000</option>
+                        <option value="4000000-6000000">ksh 4,000,000,000 - ksh 6,000,000</option>
+                        <option value="6000000-11000000">ksh 6,000,000 - ksh11,000,000</option>
+                        <option value="11000000+">11,000,000+</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Year</label>
+                    <select id="yearFilter">
+                        <option value="">Any Year</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" onclick="filterVehicles()" style="width: 100%;">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inventory Section -->
+    <section class="section" id="inventory">
+        <div class="section-title">
+            <h2>Featured Vehicles</h2>
+            <p>Explore our premium selection of vehicles</p>
+        </div>
+        <div class="inventory-grid" id="inventoryGrid">
+            <!-- Vehicles will be populated by JavaScript -->
+        </div>
+    </section>
+    
+
+    <!-- Services Section -->
+    <section class="section services" id="services">
+        <div class="section-title">
+            <h2>Our Services</h2>
+            <p>Comprehensive automotive solutions for you</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h3>Vehicle Sales</h3>
+                <p>Wide selection of brand new and pre-owned vehicles with competitive pricing and flexible financing
+                    options.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <h3>Financing</h3>
+                <p>Expert financing solutions tailored to your budget with low interest rates and quick approval
+                    process.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>Service Center</h3>
+                <p>State-of-the-art service center with certified technicians for maintenance and repairs.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <h3>Trade-In</h3>
+                <p>Get the best value for your current vehicle with our hassle-free trade-in evaluation process.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Warranty</h3>
+                <p>Comprehensive warranty packages to protect your investment and provide peace of mind.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>24/7 Support</h3>
+                <p>Round-the-clock customer support for all your automotive needs and inquiries.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="about-content">
+            <div class="about-text">
+                <div class="section-title" style="text-align: left;">
+                    <h2>About Lupin Motors</h2>
+                </div>
+                <p>With over 20 years of experience in the automotive industry, Lupin Motors has established itself as
+                    a trusted name in luxury vehicle sales. We pride ourselves on offering an exceptional selection of
+                    premium vehicles combined with unparalleled customer service.</p>
+                <p>Our team of automotive experts is dedicated to helping you find the perfect vehicle that matches your
+                    lifestyle and budget. We believe in transparency, integrity, and building long-lasting relationships
+                    with our customers.</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="20">0</div>
+                        <div>Years Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="5000">0</div>
+                        <div>Cars Sold</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="98">0</div>
+                        <div>% Satisfaction</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="50">0</div>
+                        <div>Awards Won</div>
+                    </div>
+                </div>
+            </div>
+            <!-- NEW CODE -->
+<!-- Contact Section -->
+<div class="about-image">
+    <img src="images/IMG-20260418-WA0091.jpg" 
+         alt="Lupin Motors Dealership Showroom"
+         style="width: 100%; height: 100%; object-fit: cover; min-height: 400px;"
+         onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80'">
+</div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials" id="testimonials">
+        <div class="section-title">
+            <h2>Customer Reviews</h2>
+            <p style="color: #aaa;">What our customers say about us</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100"
+                        alt="Customer" class="testimonial-avatar">
+                    <div>
+                        <h4>Michael Johnson</h4>
+                        <p style="color: #aaa; font-size: 0.9rem;">BMW M4 Owner</p>
+                    </div>
+                </div>
+                <p>"Exceptional service from start to finish. The team at Premium Motors made buying my dream car a
+                    reality. Highly recommend!"</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100"
+                        alt="Customer" class="testimonial-avatar">
+                    <div>
+                        <h4>Sarah Williams</h4>
+                        <p style="color: #aaa; font-size: 0.9rem;">Mercedes Owner</p>
+                    </div>
+                </div>
+                <p>"Professional, knowledgeable, and genuinely caring staff. They found me the perfect Mercedes within
+                    my budget. Thank you!"</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100"
+                        alt="Customer" class="testimonial-avatar">
+                    <div>
+                        <h4>David Chen</h4>
+                        <p style="color: #aaa; font-size: 0.9rem;">Porsche 911 Owner</p>
+                    </div>
+                </div>
+                <p>"Best car buying experience ever. No pressure, transparent pricing, and excellent after-sales
+                    support. Five stars!"</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section -->
+<section class="contact-section" id="contact">
+    <div class="contact-bg">
+        <div class="contact-overlay"></div>
+        <div class="contact-content">
+            <div class="contact-left">
+                <div class="contact-header">
+                    <span class="contact-subtitle">Get In Touch</span>
+                    <h2 class="contact-title">Let's Start Your Journey</h2>
+                    <p class="contact-desc">Ready to find your dream car? Our team of experts is here to help you every step of the way. Visit our showroom or send us a message.</p>
+                </div>
+
+                <div class="contact-info-cards">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-details">
+                            <h4>Visit Our Showroom</h4>
+                            <p>Nairobi, Ruiru</p>
+                            <a href="#" class="info-link">Get Directions <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="info-details">
+                            <h4>Call Us Anytime</h4>
+                            <p>+254 0745783953</p>
+                            <a href="tel +254745783953" class="info-link">Call Now <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-details">
+                            <h4>Email Us</h4>
+                            <p>sales@lupinmotors.com<br>support@lupinmotors.com</p>
+                            <a href="mailto:sales@lupinmotors.com" class="info-link">Send Email <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="info-details">
+                            <h4>Working Hours</h4>
+                            <p>Mon-Sat: 9:00 AM - 8:00 PM<br>Sunday: 11:00 AM - 5:00 PM</p>
+                            <span class="status-badge"><i class="fas fa-circle"></i> Open Now</span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                </div>
+            </div>
+
+            <div class="contact-right">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3>Send Us a Message</h3>
+                        <p>Fill out the form below and we'll get back to you within 24 hours.</p>
+                    </div>
+                    
+                    <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group-contact">
+                                <label><i class="fas fa-user"></i> First Name</label>
+                                <input type="text" id="contactFirstName" placeholder="John" required>
+                            </div>
+                            <div class="form-group-contact">
+                                <label><i class="fas fa-user"></i> Last Name</label>
+                                <input type="text" id="contactLastName" placeholder="Doe" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group-contact">
+                                <label><i class="fas fa-envelope"></i> Email</label>
+                                <input type="email" id="contactEmail" placeholder="john@example.com" required>
+                            </div>
+                            <div class="form-group-contact">
+                                <label><i class="fas fa-phone"></i> Phone</label>
+                                <input type="tel" id="contactPhone" placeholder="+1 (555) 000-0000" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group-contact full-width">
+                            <label><i class="fas fa-car"></i> Interested In</label>
+                            <select id="contactInterest" required>
+                                <option value="">Select an option</option>
+                                <option value="purchase">Purchase Vehicle</option>
+                                <option value="finance">Financing Options</option>
+                                <option value="service">Service Appointment</option>
+                                <option value="trade">Trade-In Evaluation</option>
+                                <option value="other">Other Inquiry</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group-contact full-width">
+                            <label><i class="fas fa-comment"></i> Your Message</label>
+                            <textarea id="contactMessage" placeholder="Tell us about your dream car or any questions you have..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn-contact" id="contactSubmitBtn">
+                            <span class="btn-text"><i class="fas fa-paper-plane"></i> Send Message</span>
+                            <span class="btn-loader" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Sending...</span>
+                        </button>
+
+                        <div id="contactResponse" class="response-message"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+ 
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Lupin Motors</h3>
+                <p>Your trusted partner in finding the perfect luxury vehicle. Experience excellence in every drive.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/lupinthird500?igsh=MWM2dnV6dTBmanVoaw=="><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="https://chat.whatsapp.com/DNKGMyJfE2G0DI1iDgfOAW?mode=gi_t"><i
+                            class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#inventory">Inventory</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul>
+                    <li><a href="#">Vehicle Sales</a></li>
+                    <li><a href="#">Financing</a></li>
+                    <li><a href="#">Trade-In</a></li>
+                    <li><a href="#">Service Center</a></li>
+                    <li><a href="#">Warranty</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Subscribe for latest updates and exclusive offers.</p>
+                <form style="margin-top: 1rem;">
+                    <input type="email" placeholder="Enter your email"
+                        style="padding: 0.8rem; width: 100%; border-radius: 5px; border: none; margin-bottom: 0.5rem;">
+                    <button class="btn btn-primary" style="width: 100%;">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 lupin Motors. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+    <!-- Vehicle Details Modal -->
+    <!-- Vehicle Details Modal -->
+   <div class="modal" id="vehicleModal">
+        <div class="modal-content">
+         <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div class="modal-body" id="modalBody">
+            <!-- Modal content populated by JS -->
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+<script src="js/main.js"></script>
+</body>
+
+</html>

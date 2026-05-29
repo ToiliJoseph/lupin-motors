@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Details - Lupin Motors</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --gold: #ffd700;
+            --light: #f5f5f5;
+            --text: #333;
+            --white: #ffffff;
+            --dark-bg: #0f0f23;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--light);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .back-btn {
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--accent);
+        }
+
+        .mobile-menu {
+            display: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 5%;
+            padding-right: 5%;
+            padding-bottom: 5rem;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1.5rem 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Vehicle Header */
+        .vehicle-header-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Image Gallery */
+        .gallery-container {
+            position: relative;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            cursor: zoom-in;
+            transition: transform 0.3s;
+        }
+
+        .main-image:hover {
+            transform: scale(1.02);
+        }
+
+        .thumbnail-strip {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .thumbnail {
+            width: 120px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .image-label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--accent);
+            color: var(--white);
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 10;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.6);
+            color: var(--white);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+            z-index: 10;
+        }
+
+        .gallery-nav:hover {
+            background: var(--accent);
+        }
+
+        .gallery-nav.prev { left: 15px; }
+        .gallery-nav.next { right: 15px; }
+
+        /* Vehicle Info */
+        .vehicle-info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .vehicle-title-block h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .vehicle-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .price-tag {
+            font-size: 2.5rem;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .price-note {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .quick-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .quick-spec-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .quick-spec-item i {
+            font-size: 1.5rem;
+            color: var(--accent);
+            width: 40px;
+            text-align: center;
+        }
+
+        .quick-spec-item div {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .quick-spec-item div strong {
+            display: block;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: #ff6b6b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Tabs Section */
+        .tabs-section {
+            margin: 3rem 0;
+        }
+
+        .tabs-header {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            padding: 1rem 2.5rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .tab-btn:hover {
+            color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Interior Gallery Grid */
+        .interior-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .interior-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .interior-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .interior-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .interior-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .interior-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: var(--white);
+            padding: 2rem 1rem 1rem;
+            font-weight: 600;
+        }
+
+        /* Specs Table */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .specs-table tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+
+        .specs-table td {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .specs-table td:first-child {
+            font-weight: 600;
+            color: var(--primary);
+            width: 40%;
+        }
+
+        .specs-table td:last-child {
+            color: #666;
+        }
+
+        /* Features List */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .feature-item i {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        /* Financing Calculator */
+        .calculator-box {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .calc-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .calc-group label {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .calc-group input,
+        .calc-group select {
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .calc-group input:focus,
+        .calc-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .calc-result {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .calc-result .monthly {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Contact Form in Detail Page */
+        .contact-section-detail {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .contact-section-detail h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 0.9rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Related Vehicles */
+        .related-section {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .related-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .related-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .related-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .related-info {
+            padding: 1.2rem;
+        }
+
+        .related-info h4 {
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .related-price {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: var(--white);
+            font-size: 3rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: var(--white);
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: background 0.3s;
+        }
+
+        .lightbox-nav:hover {
+            background: var(--accent);
+        }
+
+        .lightbox-nav.prev { left: 30px; }
+        .lightbox-nav.next { right: 30px; }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--white);
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .vehicle-header-section {
+                grid-template-columns: 1fr;
+            }
+
+            .interior-gallery,
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid,
+            .calc-row,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .tabs-header {
+                overflow-x: auto;
+            }
+
+            .main-image {
+                height: 300px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Lupin Motors" class="logo-img" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'color:white;font-size:1.5rem;font-weight:bold;\'><i class=\'fas fa-car\' style=\'color:var(--accent);margin-right:8px;\'></i>Lupin Motors</span>'">
+            </a>
+           <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#inventory">Inventory</a></li>
+                <li><a href="/#services">Services</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+            <a href="index.html#inventory" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Inventory
+            </a>
+            <div class="mobile-menu" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / <a href="index.html#inventory">Inventory</a> / <span id="breadcrumbName">Vehicle Details</span>
+        </div>
+
+        <!-- Vehicle Header Section -->
+        <div class="vehicle-header-section">
+            
+            <!-- Image Gallery -->
+            <div class="gallery-container">
+                <span class="image-label" id="mainBadge">Featured</span>
+                <img src="" alt="Vehicle" class="main-image" id="mainImage" onclick="openLightbox(0)">
+                <button class="gallery-nav prev" onclick="changeImage(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="gallery-nav next" onclick="changeImage(1)"><i class="fas fa-chevron-right"></i></button>
+                
+                <div class="thumbnail-strip" id="thumbnailStrip">
+                    <!-- Thumbnails populated by JS -->
+                </div>
+            </div>
+
+            <!-- Vehicle Info Panel -->
+            <div class="vehicle-info-panel">
+                <div class="vehicle-title-block">
+                    <h1 id="vehicleName">Vehicle Name</h1>
+                    <p class="vehicle-subtitle" id="vehicleSubtitle">Year • Condition</p>
+                </div>
+                
+                <div class="price-tag" id="vehiclePrice">$0</div>
+                <p class="price-note">* Excluding taxes and fees</p>
+
+                <div class="quick-specs">
+                    <div class="quick-spec-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <div>
+                            <strong>Mileage</strong>
+                            <span id="specMileage">-</span>
+                        </div>
+                    </div>
+                    <div class="quick-spec-item">
+                        <i class="fas fa-gas-pump"></i>
+                        <div>
+                            <strong>Fuel Type</strong>
+                            <span id="specFuel">-</span>
+                        </div>
+                    </div>
+                    <div class="quick-spec-item">
+                        <i class="fas fa-cog"></i>
+                        <div>
+                            <strong>Transmission</strong>
+                            <span id="specTrans">-</span>
+                        </div>
+                    </div>
+                    <div class="quick-spec-item">
+                        <i class="fas fa-calendar"></i>
+                        <div>
+                            <strong>Year</strong>
+                            <span id="specYear">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="scrollToContact()">
+                        <i class="fas fa-phone"></i> Contact Seller
+                    </button>
+                    <button class="btn btn-secondary" onclick="scheduleTestDrive()">
+                        <i class="fas fa-calendar-check"></i> Test Drive
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Section -->
+        <div class="tabs-section">
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+                <button class="tab-btn" onclick="switchTab('interior')">Interior</button>
+                <button class="tab-btn" onclick="switchTab('specs')">Specifications</button>
+                <button class="tab-btn" onclick="switchTab('features')">Features</button>
+                <button class="tab-btn" onclick="switchTab('finance')">Financing</button>
+            </div>
+
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="tab-overview">
+                <h2 style="margin-bottom: 1rem; color: var(--primary);">About This Vehicle</h2>
+                <p id="vehicleDescription" style="font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 2rem;">
+                    Description loading...
+                </p>
+                
+                <h3 style="margin-bottom: 1rem; color: var(--primary);">Highlights</h3>
+                <div class="features-grid" id="highlightsGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Interior Tab -->
+            <div class="tab-content" id="tab-interior">
+                <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Interior Gallery</h2>
+                <p style="color: #666; margin-bottom: 2rem;">Click on any image to view in full screen</p>
+                <div class="interior-gallery" id="interiorGallery">
+                    <!-- Interior images populated by JS -->
+                </div>
+            </div>
+
+            <!-- Specifications Tab -->
+            <div class="tab-content" id="tab-specs">
+                <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Technical Specifications</h2>
+                <table class="specs-table" id="specsTable">
+                    <!-- Populated by JS -->
+                </table>
+            </div>
+
+            <!-- Features Tab -->
+            <div class="tab-content" id="tab-features">
+                <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Standard Features</h2>
+                <div class="features-grid" id="featuresGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Financing Tab -->
+            <div class="tab-content" id="tab-finance">
+                <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Payment Calculator</h2>
+                <div class="calculator-box">
+                    <div class="calc-row">
+                        <div class="calc-group">
+                            <label>Vehicle Price</label>
+                            <input type="number" id="calcPrice" readonly>
+                        </div>
+                        <div class="calc-group">
+                            <label>Down Payment</label>
+                            <input type="number" id="calcDown" value="10000" oninput="calculatePayment()">
+                        </div>
+                    </div>
+                    <div class="calc-row">
+                        <div class="calc-group">
+                            <label>Interest Rate (%)</label>
+                            <input type="number" id="calcRate" value="4.5" step="0.1" oninput="calculatePayment()">
+                        </div>
+                        <div class="calc-group">
+                            <label>Loan Term (months)</label>
+                            <select id="calcTerm" onchange="calculatePayment()">
+                                <option value="36">36 months</option>
+                                <option value="48">48 months</option>
+                                <option value="60" selected>60 months</option>
+                                <option value="72">72 months</option>
+                                <option value="84">84 months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="calc-result">
+                        <div>Estimated Monthly Payment</div>
+                        <div class="monthly" id="monthlyPayment">$0</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8;">* Estimated only. Actual terms may vary.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+<div class="contact-section-detail" id="contactSection">
+    <h3><i class="fas fa-envelope" style="color: var(--accent); margin-right: 0.5rem;"></i> Interested in this vehicle?</h3>
+    <p style="color: #666; margin-bottom: 1.5rem;">Fill out the form below and our team will contact you shortly.</p>
+    <form id="inquiryForm" onsubmit="handleInquiry(event)">
+        <div class="form-grid">
+            <div class="form-group">
+                <input type="text" id="inquiryFirstName" placeholder="First Name" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="inquiryLastName" placeholder="Last Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="inquiryEmail" placeholder="Email Address" required>
+            </div>
+            <div class="form-group">
+                <input type="tel" id="inquiryPhone" placeholder="Phone Number" required>
+            </div>
+            <div class="form-group full">
+                <select id="inquiryContactMethod" required>
+                    <option value="">Preferred Contact Method</option>
+                    <option value="phone">Phone</option>
+                    <option value="email">Email</option>
+                    <option value="text">Text Message</option>
+                </select>
+            </div>
+            <div class="form-group full">
+                <textarea id="inquiryMessage" placeholder="Your message or questions about this vehicle..." required></textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" id="inquirySubmitBtn">
+            <i class="fas fa-paper-plane"></i> Send Inquiry
+        </button>
+        <div id="inquiryResponse" style="margin-top: 1rem; text-align: center;"></div>
+    </form>
+</div>
+        <!-- Related Vehicles -->
+        <div class="related-section">
+            <h2>You May Also Like</h2>
+            <div class="related-grid" id="relatedGrid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Lupin Motors. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; color: #aaa;">Premium Vehicles | Exceptional Service | Trusted Dealership</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-nav prev" onclick="navigateLightbox(-1)"><i class="fas fa-chevron-left"></i></button>
+        <img src="" alt="Full view" id="lightboxImage">
+        <button class="lightbox-nav next" onclick="navigateLightbox(1)"><i class="fas fa-chevron-right"></i></button>
+        <div class="lightbox-counter" id="lightboxCounter">1 / 8</div>
+    </div>
+
+    <script>
+        // Vehicle Database with Interior Images
+    const vehicleDatabase = {
+    1: {
+        id: 1,
+        make: 'Volvo',
+        model: 'XC90',
+        year: 2024,
+        price: 7750000,
+        mileage: '46,000',
+        fuel: 'petrol',
+        transmission: 'Automatic',
+        badge: 'Featured',
+        condition: 'brand new',
+        description: 'The Volvo XC90 combines Scandinavian luxury with advanced safety features. This meticulously maintained hybrid SUV offers exceptional comfort and performance.',
+        
+        // Your actual exterior images
+        exteriorImages: [
+        'images/cars/volvo/exterior1.jpg',
+        'images/cars/volvo/exterior2.jpg',
+        'images/cars/volvo/exterior3.jpg',
+        'images/cars/volvo/exterior4.jpg'
+        ],
+        
+        // For interior, use your exterior images as placeholders until you add real interior photos
+        interiorImages: [
+            { url: 'images/cars/volvo/interior1.jpg', label: 'rear seats' },
+            { url: 'images/cars/volvo/interior2.jpg', label: 'Interior Front' },
+            { url: 'images/cars/volvo/interior3.jpg', label: 'front Seats' },
+            { url: 'images/cars/volvo/interior4.jpg', label: 'front cabin view' }
+        ],
+        
+        specs: {
+            'Engine': '2000cc turbo & supercharged mild-hybrid petrol engine',
+            'Horsepower': '400 hp',
+            'Torque': '472 lb-ft',
+            'Drivetrain': 'All-Wheel Drive',
+            'Transmission': '8-Speed Automatic',
+            '0-60 mph': '5.3 seconds',
+            'Fuel Economy (City)': '26 MPG',
+            'Fuel Economy (Highway)': '30 MPG',
+            'Seating Capacity': '7 Passengers'
+        },
+        
+        features: [
+            'Bowers & Wilkins Sound',
+            'Pilot Assist',
+            '360° Camera',
+            'Air Suspension',
+            'Panoramic Roof',
+            'Heated & Ventilated Seats'
+        ],
+        
+         highlights: [
+            'One Owner',
+            'Full Service History',
+            'Advanced Safety Package',
+                'Premium Sound System'
+                ]
+         
+            },
+            2: {
+                id: 2,
+                make: 'Range Rover ',
+                model: 'Vogue 350D',
+                year: 2022,
+                price: 31000000,
+                mileage: '27,000',
+                fuel: 'Disel',
+                transmission: 'Automatic',
+                badge: 'Luxury',
+                condition: 'brand new',
+                description: 'The Range Rover Vogue D350 is the pinnacle of luxury SUV refinement, perfectly blending a commanding road presence with immense power. It pairs a whisper-quiet, 350-horsepower mild-hybrid diesel engine (delivering an impressive 700 Nm of torque) with an ultra-premium cabin, creating a peerless first-class driving experience',
+                exteriorImages: [
+                    
+                    'images/cars/rangeRover/exterior1.jpg',
+                    'images/cars/rangeRover/exterior2.jpg',
+                    'images/cars/rangeRover/exterior3.jpg',
+                ],
+                interiorImages: [
+                    { url: 'images/cars/rangeRover/interior1.jpg', label: 'interior front view' },
+                    { url: 'images/cars/rangeRover/interior2.jpg', label: 'ELeather Upholstery' },
+                    { url: 'images/cars/rangeRover/interior3.jpg', label: 'MBUX Hyperscreen' },
+                    { url: 'images/cars/rangeRover/interior4.jpg', label: 'Leather Upholstery' },
+                    { url: 'images/cars/rangeRover/interior5.jpg', label: 'front cabin' },
+                    { url: 'images/cars/rangeRover/interior6.jpg', label: 'master switch pannel' }
+                ],
+                specs: {
+                    'Engine': '3000cc turbocharged disel engine',
+                    'Horsepower': '350hp',
+                    'Torque': '700NM',
+                    'Drivetrain': '4MATIC All-Wheel Drive',
+                    'Transmission': '8-Speed  ZF Automatic',
+                    
+                },
+                features: [
+                    'Panoramic sunroof',
+                    'Automatic handbreak',
+                    'Blind spot monitor',
+                    'Heated and ventilated electric front seats',
+                    'HUD Controls',
+                    'Rare climate control panel',
+                    'Blind Spot assist',
+                    'Digital Light Headlights',
+                    'Tyre pressure monitor',
+                    'Headlamp power wash',
+                    'Heated steering wheel',
+                    'Wireless Charging'
+                ],
+                highlights: [
+                    'Executive Package',
+                    'Rear Seat Entertainment',
+                    'Night Vision Assist',
+                    'Full Leather Interior',
+                    'One Owner Vehicle'
+                ]
+            },
+            3: {
+                id: 3,
+                make: 'Toyota',
+                model: 'Land Cruiser ZX',
+                year: 2023,
+                price: 15800000,
+                mileage: '29000',
+                fuel: 'Disel',
+                transmission: 'Automatic',
+                badge: 'luxury',
+                condition: 'on offer',
+                description: 'The 2023 Toyota Land Cruiser ZX (LC300) is the ultimate luxury off-roader, seamlessly blending bulletproof 4x4 capability with first-class executive comfort. It features a commanding, muscular design, a high-tech cabin with heated/cooled leather seating, and a roaring Twin-Turbo V6 engine',
+                exteriorImages: [
+                    'images/cars/pradozx/exterior1.jpg',
+                    'images/cars/pradozx/exterior2.jpg',
+                    'images/cars/pradozx/exterior3.jpg',
+                ],
+                interiorImages: [
+                    { url: 'images/cars/pradozx/interior1.jpg', label: 'parnomic roof view' },
+                    { url: 'images/cars/pradozx/interior2.jpg', label: 'MBUX Hyperscreen' },
+                    { url: 'images/cars/pradozx/interior3.jpg', label: 'front cabin' },
+                    { url: 'images/cars/pradozx/interior4.jpg', label: 'Ambient lighting' },
+                    { url: 'images/cars/pradozx/interior5.jpg', label: 'gear box view' },
+                    { url: 'images/cars/pradozx/interior6.jpg', label: 'steering view' }
+                ],
+                specs: {
+                    'Engine': '3.5L V6 Twin-Turbo',
+                    'Horsepower': '409 hp @ 5,200 rpm',
+                    'Torque': '479 lb-ft (650 Nm) @ 2,000-3,600 rpm',
+                    'Drivetrain': 'Full-Time Four-Wheel Drive (4WD)',
+                    'Transmission': '10-Speed Automatic',
+                    '0-60 mph': '6.8 seconds',
+                    'Top Speed': '130 mph (210 km/h)',
+                    'Fuel Economy (City)':'approx. 23 MPG',
+                    'Fuel Economy (Highway)': '23 MPG',
+                    'Curb Weight': 'approx. 5,732 lbs (2,600 kg',
+                    'Length': '196.5 inches',
+                    'Width': '76.4 inches',
+                    'Height': '48.8 inches',
+                    'Wheelbase': '112.2 inches',
+                    'Cargo Capacity': '40.6 cubic feet (with rear seats folded)'
+                },
+                features: [
+                    '3.5-liter twin-turbo V6 engine',
+                    '10-speed automatic transmission',
+                    '360-degree camers view',
+                    'Adaptive Variable Suspension',
+                    'Heated front and second-row seats',
+                    'JBL premium sound system',
+                    '12.3-inch touchscreen infotainment system',
+                    'power tailgate with hand-free access',
+                    'Electric adjustable seats',
+                    'Park Assist',
+                    'Audi Connect',
+                    'Wireless Charging'
+                ],
+                highlights: [
+                    'Only 29,000 Miles',
+                    'Carbon Ceramic Brakes',
+                    'Full PPF Protection',
+                    'Sport Package',
+                    'Garage Kept'
+                ]
+            },
+            4: {
+                id: 4,
+                make: 'Mercede-Benz',
+                model: 'GLS400D',
+                year: 2020,
+                price: 14950000,
+                mileage: '58,000',
+                fuel: 'Disel',
+                transmission: 'Automatic',
+                badge: 'New Arrival',
+                condition: 'new',
+                description: 'The 2020 Mercedes-Benz GLS400d is the "S-Class of SUVs". It pairs a muscular 3.0L inline-six turbo-diesel engine (\(330\) hp / \(700\) Nm) with a silky-smooth 9-speed automatic transmission. This supersized, 7-seater luxury cruiser effortlessly hits \(0-100\) km/h in \(6.3\) seconds while coddling passengers with massaging seats and cutting-edge tech',
+                exteriorImages: [
+                    'images/cars/mercedes/exterior1.jpg',
+                    'images/cars/mercedes/exterior2.jpg',
+                    'images/cars/mercedes/exterior3.jpg',
+                ],
+                interiorImages: [
+                    { url: 'images/cars/mercedes/interior1.jpg', label: 'front cabin' },
+                    { url: 'images/cars/mercedes/interior2.jpg', label: 'interior front view' },
+                    { url: 'images/cars/mercedes/interior3.jpg', label: 'Exucutive front seats' },
+                    { url: 'images/cars/mercedes/interior4.jpg', label: 'Rear sitting view' },
+                    
+                ],
+                specs: {
+                    'Engine': '3000cc twin turbo engine',
+                    'Horsepower': '330bhp',
+                    'Torque': '700 nm',
+                    'Drivetrain': 'Rear-Wheel Drive',
+                    'Transmission': '9-speed automatic transmission',
+                    '0-60 mph': '3.3 seconds',
+                    'Top Speed': '191 mph',
+                    'Fuel Economy (City)': '18 MPG',
+                    'Fuel Economy (Highway)': '25 MPG',
+                    'Curb Weight': '3,382 lbs',
+                    'Length': '177.9 inches',
+                    'Width': '72.9 inches',
+                    'Height': '51.1 inches',
+                    'Wheelbase': '96.5 inches',
+                    'Cargo Capacity': '4.6 cubic feet'
+                },
+                features: [
+                    "MBUX Infotainment System",
+                    "Digital Instrument Cluster",
+                    "Adaptive Air Suspension",
+                    "Panoramic Sunroof",
+                    "Ambient Lighting",
+                    "Burmester Sound System",
+                    "Active Parking Assist",
+                    "360-degree Camera",
+                    "Heated and Ventilated Seats",
+                    "Driver Assistance Package"
+                ],
+                highlights: [
+                    'Only 58,000 Miles',
+                    'Sport Chrono Package',
+                    'Premium Package',
+                    'mercedes Certified',
+                    'Full Service Records'
+                ]
+            },
+            5: {
+                id: 5,
+                make: 'Subaru',
+                model: 'forester',
+                year: 2022,
+                price: 4799000,
+                mileage: '15,000',
+                fuel: 'Gasoline',
+                transmission: 'Automatic',
+                badge: 'on-offer',
+                condition: 'brand new',
+                description: 'The 2022 Subaru Forester is a rugged, family-friendly compact SUV built for adventure. It combines standard Symmetrical All-Wheel Drive, a highly capable 2.5-liter Boxer engine, and generous ground clearance with a spacious cabin, impressive fuel economy (up to \(33\text{ MPG}\) highway), and top-tier EyeSight safety technology',
+                exteriorImages: [
+                    'images/cars/zubaru/exterior1.jpg',
+                    'images/cars/zubaru/exterior2.jpg',
+                    'images/cars/zubaru/exterior3.jpg',
+                    'images/cars/zubaru/exterior4.jpg',
+                ],
+                interiorImages: [
+                    { url: 'images/cars/zubaru/interior1.jpg', label: 'front cabin' },
+                    { url: 'images/cars/zubaru/interior2.jpg', label: 'Steering view' },
+                    { url: 'images/cars/zubaru/interior3.jpg', label: 'MBUX Hyperscreen' },
+                    { url: 'images/cars/zubaru/interior4.jpg', label: 'Interior front view' },
+                    { url: 'images/cars/zubaru/interior5.jpg', label: 'centre console' },
+                    { url: 'images/cars/zubaru/interior6.jpg', label: 'Rear seating ' }
+                ],
+                specs: {
+                    'Engine': '2.5L 4-Cylinder Boxer',
+                    'Horsepower': '182 hp @ 5,800 rpm',
+                    'Torque': '176 lb-ft @ 4,400 rpm',
+                    'Drivetrain': 'Symmetrical All-Wheel Drive',
+                    'Transmission': 'Lineartronic CVT Automatic',
+                    '0-60 mph': '8.0 seconds',
+                    'Top Speed': '127 mph',
+                    'Fuel Economy (City)': '26 MPG',
+                    'Fuel Economy (Highway)': '33 MPG',
+                    'Curb Weight': '3,528 lbs',
+                    'Length': '182.7 inches',
+                    'Width': '71.5 inches',
+                    'Height': '68.1 inches',
+                    'Wheelbase': '105.1 inches',
+                    'Cargo Capacity': '74.2 cubic feet'
+                },
+                features: [
+                    "Symmetrical All-Wheel Drive",
+                    "EyeSight Driver Assist Technology",
+                    "X-MODE Terrain Management",
+                    "Apple CarPlay and Android Auto",
+                    "Panoramic Power Moonroof",
+                    "LED Steering Responsive Headlights",
+                    "Subaru STARLINK Safety and Security",
+                    "Dual-Zone Automatic Climate Control",
+                    "Power Rear Gate with Height Memory",
+                    "60/40-Split Flat-Folding Rear Seats"
+                ],
+                highlights: [
+                    'Subaru Certified',
+                    'Mark Levinson Audio',
+                    'Carbon Fiber Roof',
+                    'One Owner',
+                    'Immaculate Condition'
+                ]
+            },
+            6: {
+                id: 6,
+                make: 'Range Rover',
+                model: 'Vogue SDV8',
+                year: 2018,
+                price: 195000,
+                mileage: '18,000',
+                fuel: 'Disel',
+                transmission: 'Automatic',
+                badge: 'SUV',
+                condition: 'Pre-Owned',
+                description: 'The 2018 Range Rover Vogue SDV8 is a pinnacle luxury SUV, distinguished by its potent 4.4-liter twin-turbo diesel V8 engine. Combining commanding off-road capability with a whisper-quiet, opulent cabin, it features premium leather upholstery, advanced dual-touchscreen infotainment, and legendary air suspension for an effortlessly smooth ride.',
+                exteriorImages: [
+                    'images/cars/Range2/exterior1.jpg',
+                    'images/cars/Range2/exterior2.jpg',
+                    'images/cars/Range2/exterior3.jpg',
+                ],
+                interiorImages: [
+                    { url: 'images/cars/Range2/interior1.jpg', label: 'Interior front view' },
+                    { url: 'images/cars/Range2/interior2.jpg', label: 'Front Cabin' },
+                    { url: 'images/cars/Range2/interior3.jpg', label: 'MBUX Hyperscreen' },
+                    { url: 'images/cars/Range2/interior4.jpg', label: 'Exucutive rear seating' },
+                    { url: 'images/cars/Range2/interior5.jpg', label: 'Instrument cluster view' },
+                    { url: 'images/cars/Range2/interior6.jpg', label: 'Panoramic Roof View' }
+                ],
+                specs: {
+                    'Engine': '4.4L Twin-Turbo Diesel V8',
+                    'Horsepower': '335 hp @ 3,500 rpm',
+                    'Torque': '546 lb-ft @ 1,750 rpm',
+                    'Drivetrain': 'Four-Wheel Drive (4WD)',
+                    'Transmission': '8-Speed Automatic',
+                    '0-60 mph': '6.5 seconds',
+                    'Top Speed': '135 mph',
+                    'Fuel Economy (City)': '22 MPG',
+                    'Fuel Economy (Highway)': '31 MPG',
+                    'Curb Weight': '5,511 lbs',
+                    'Length': '196.8 inches',
+                    'Width': '78.1 inches',
+                    'Height': '72.2 inches',
+                    'Wheelbase': '115.0 inches',
+                    'Cargo Capacity': '68.6 cubic feet'
+                },
+                features: [
+                    "Terrain Response 2 Dynamic System",
+                    "Electronic Air Suspension",
+                    "Matrix LED Headlights with Signature DRL",
+                    "Touch Pro Duo Infotainment System",
+                    "20-Way Heated Front Seats",
+                    "Meridian Sound System",
+                    "Soft Door Close",
+                    "Gesture Tailgate",
+                    "Lane Departure Warning",
+                    "Three-Zone Climate Control"
+                ],
+                highlights: [
+                    'Executive Package',                    
+                    'Panoramic Roof',
+                    'Low Mileage for Class',
+                    'Full Warranty Remaining'
+                ]
+            }
+        };
+
+        let currentVehicle = null;
+        let currentImageIndex = 0;
+        let allImages = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const vehicleId = parseInt(urlParams.get('id')) || 1;
+            
+            loadVehicle(vehicleId);
+        });
+
+        function loadVehicle(id) {
+            currentVehicle = vehicleDatabase[id];
+            if (!currentVehicle) {
+                currentVehicle = vehicleDatabase[1];
+            }
+
+            // Set basic info
+            document.getElementById('breadcrumbName').textContent = `${currentVehicle.make} ${currentVehicle.model}`;
+            document.getElementById('vehicleName').textContent = `${currentVehicle.make} ${currentVehicle.model}`;
+            document.getElementById('vehicleSubtitle').textContent = `${currentVehicle.year} • ${currentVehicle.condition}`;
+            document.getElementById('vehiclePrice').textContent = `ksh ${currentVehicle.price.toLocaleString()}`;
+            document.getElementById('mainBadge').textContent = currentVehicle.badge;
+            document.getElementById('vehicleDescription').textContent = currentVehicle.description;
+
+            // Set specs
+            document.getElementById('specMileage').textContent = currentVehicle.mileage + ' mi';
+            document.getElementById('specFuel').textContent = currentVehicle.fuel;
+            document.getElementById('specTrans').textContent = currentVehicle.transmission;
+            document.getElementById('specYear').textContent = currentVehicle.year;
+
+            // Set calculator price
+            document.getElementById('calcPrice').value = currentVehicle.price;
+
+            // Combine all images for gallery
+            allImages = [...currentVehicle.exteriorImages, ...currentVehicle.interiorImages.map(img => img.url)];
+            
+            // Set main image
+            document.getElementById('mainImage').src = currentVehicle.exteriorImages[0];
+
+            // Create thumbnails
+            const thumbStrip = document.getElementById('thumbnailStrip');
+            thumbStrip.innerHTML = allImages.map((img, idx) => `
+                <img src="${img}" class="thumbnail ${idx === 0 ? 'active' : ''}" 
+                     onclick="setMainImage(${idx})" alt="View ${idx + 1}">
+            `).join('');
+
+            // Populate interior gallery
+            const interiorGallery = document.getElementById('interiorGallery');
+            interiorGallery.innerHTML = currentVehicle.interiorImages.map((img, idx) => `
+                <div class="interior-item" onclick="openLightbox(${currentVehicle.exteriorImages.length + idx})">
+                    <img src="${img.url}" alt="${img.label}">
+                    <div class="interior-label">${img.label}</div>
+                </div>
+            `).join('');
+
+            // Populate specs table
+            const specsTable = document.getElementById('specsTable');
+            specsTable.innerHTML = Object.entries(currentVehicle.specs).map(([key, value]) => `
+                <tr>
+                    <td>${key}</td>
+                    <td>${value}</td>
+                </tr>
+            `).join('');
+
+            // Populate features
+            const featuresGrid = document.getElementById('featuresGrid');
+            featuresGrid.innerHTML = currentVehicle.features.map(feature => `
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>${feature}</span>
+                </div>
+            `).join('');
+
+            // Populate highlights
+            const highlightsGrid = document.getElementById('highlightsGrid');
+            highlightsGrid.innerHTML = currentVehicle.highlights.map(highlight => `
+                <div class="feature-item">
+                    <i class="fas fa-star" style="color: var(--gold);"></i>
+                    <span>${highlight}</span>
+                </div>
+            `).join('');
+
+            // Calculate initial payment
+            calculatePayment();
+
+            // Load related vehicles
+            loadRelatedVehicles(id);
+        }
+
+        function setMainImage(index) {
+            currentImageIndex = index;
+            document.getElementById('mainImage').src = allImages[index];
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach((thumb, idx) => {
+                thumb.classList.toggle('active', idx === index);
+            });
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = allImages.length - 1;
+            if (currentImageIndex >= allImages.length) currentImageIndex = 0;
+            setMainImage(currentImageIndex);
+        }
+
+        // Tab Switching
+        function switchTab(tabName) {
+            // Update buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        // Lightbox
+        function openLightbox(index) {
+            currentImageIndex = index;
+            document.getElementById('lightboxImage').src = allImages[index];
+            document.getElementById('lightboxCounter').textContent = `${index + 1} / ${allImages.length}`;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox(event) {
+            if (!event || event.target.id === 'lightbox' || event.target.classList.contains('lightbox-close')) {
+                document.getElementById('lightbox').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function navigateLightbox(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = allImages.length - 1;
+            if (currentImageIndex >= allImages.length) currentImageIndex = 0;
+            
+            document.getElementById('lightboxImage').src = allImages[currentImageIndex];
+            document.getElementById('lightboxCounter').textContent = `${currentImageIndex + 1} / ${allImages.length}`;
+        }
+
+        // Calculator
+        function calculatePayment() {
+            const price = parseFloat(document.getElementById('calcPrice').value) || 0;
+            const down = parseFloat(document.getElementById('calcDown').value) || 0;
+            const rate = parseFloat(document.getElementById('calcRate').value) || 0;
+            const term = parseInt(document.getElementById('calcTerm').value) || 60;
+
+            const principal = price - down;
+            const monthlyRate = rate / 100 / 12;
+            const numPayments = term;
+
+            let monthly = 0;
+            if (rate === 0) {
+                monthly = principal / numPayments;
+            } else {
+                monthly = principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+                         (Math.pow(1 + monthlyRate, numPayments) - 1);
+            }
+
+            document.getElementById('monthlyPayment').textContent = 'ksh' + Math.round(monthly).toLocaleString();
+        }
+
+        // Related Vehicles
+        function loadRelatedVehicles(currentId) {
+            const related = Object.values(vehicleDatabase)
+                .filter(v => v.id !== currentId)
+                .slice(0, 3);
+            
+            const grid = document.getElementById('relatedGrid');
+            grid.innerHTML = related.map(v => `
+                <a href="vehicle-detail.html?id=${v.id}" class="related-card">
+                    <img src="${v.exteriorImages[0]}" alt="${v.make} ${v.model}">
+                    <div class="related-info">
+                        <h4>${v.make} ${v.model}</h4>
+                        <p style="color: #666; font-size: 0.9rem;">${v.year}</p>
+                        <div class="related-price">ksh ${v.price.toLocaleString()}</div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Contact
+        function scrollToContact() {
+            document.getElementById('contactSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scheduleTestDrive() {
+            scrollToContact();
+            // Could pre-fill form with test drive request
+        }
+
+        function handleInquiry(e) {
+            e.preventDefault();
+            alert('Thank you for your inquiry! Our team will contact you within 24 hours about this ' + 
+                  currentVehicle.make + ' ' + currentVehicle.model + '.');
+            e.target.reset();
+        }
+
+        // Mobile Menu
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.style.position = 'absolute';
+            navLinks.style.top = '100%';
+            navLinks.style.left = '0';
+            navLinks.style.width = '100%';
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.background = 'var(--primary)';
+            navLinks.style.padding = '2rem';
+        }
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('lightbox').classList.contains('active')) return;
+            
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navigateLightbox(-1);
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+        });
+        // API Base URL
+const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000/api' 
+    : '/api';
+
+async function handleInquiry(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('inquirySubmitBtn');
+    const responseDiv = document.getElementById('inquiryResponse');
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    
+    const formData = {
+        firstName: document.getElementById('inquiryFirstName').value,
+        lastName: document.getElementById('inquiryLastName').value,
+        email: document.getElementById('inquiryEmail').value,
+        phone: document.getElementById('inquiryPhone').value,
+        contactMethod: document.getElementById('inquiryContactMethod').value,
+        vehicleInterest: `${currentVehicle.year} ${currentVehicle.make} ${currentVehicle.model}`,
+        vehicleId: currentVehicle.id.toString(),
+        message: document.getElementById('inquiryMessage').value
+    };
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/inquiries/submit`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            responseDiv.innerHTML = `<p style="color: #28a745; font-weight: 600;"><i class="fas fa-check-circle"></i> ${data.message}</p>`;
+            document.getElementById('inquiryForm').reset();
+        } else {
+            responseDiv.innerHTML = `<p style="color: #dc3545;"><i class="fas fa-exclamation-circle"></i> ${data.message || 'Something went wrong.'}</p>`;
+        }
+        
+    } catch (error) {
+        console.error('Error:', error);
+        responseDiv.innerHTML = `<p style="color: #dc3545;"><i class="fas fa-exclamation-circle"></i> Network error. Please try again.</p>`;
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Inquiry';
+        
+        setTimeout(() => {
+            responseDiv.innerHTML = '';
+        }, 5000);
+    }
+}
+    </script>
+    
+</body>
+</body>
+</html>
