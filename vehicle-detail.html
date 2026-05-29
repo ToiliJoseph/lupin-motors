@@ -840,7 +840,7 @@
 
             .interior-gallery,
             .related-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .features-grid,
@@ -868,7 +868,79 @@
             .mobile-menu {
                 display: block;
             }
+            /* ============================================
+   MOBILE FIX: Interior/Exterior Grid + Arrows
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Force 2-column grid for interior/exterior */
+    .interior-gallery,
+    #interiorGallery,
+    .exterior-gallery {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.8rem !important;
+    }
+    
+    .interior-gallery img,
+    #interiorGallery img,
+    .interior-item,
+    .interior-item img {
+        width: 100% !important;
+        height: 140px !important;
+        object-fit: cover;
+    }
+    
+    /* Hide any arrows inside interior/exterior galleries */
+    .interior-gallery .gallery-nav,
+    .interior-gallery .lightbox-nav,
+    #interiorGallery .gallery-nav,
+    #interiorGallery .lightbox-nav,
+    .exterior-gallery .gallery-nav {
+        display: none !important;
+    }
+    
+    /* Main image arrows stay visible */
+    .gallery-main .gallery-nav {
+        display: flex !important;
+    }
+}
         }
+        /* ============================================
+   FINAL MOBILE OVERRIDE - DO NOT MOVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Force 2-column interior gallery */
+    .interior-gallery,
+    #interiorGallery {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.8rem !important;
+        width: 100% !important;
+    }
+    
+    .interior-gallery .interior-item,
+    #interiorGallery .interior-item {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    .interior-gallery .interior-item img,
+    #interiorGallery .interior-item img {
+        width: 100% !important;
+        height: 140px !important;
+        object-fit: cover !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Hide labels if they cause overflow */
+    .interior-gallery .interior-label,
+    #interiorGallery .interior-label {
+        font-size: 0.8rem !important;
+        padding: 0.3rem !important;
+    }
+}
     </style>
 </head>
 <body>
